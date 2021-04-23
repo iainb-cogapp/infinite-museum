@@ -6,7 +6,8 @@ function moveFieldByKey(key) {
     KeyS: "moveBackward",
     KeyA: "moveLeft",
     KeyD: "moveRight",
-    Space: "jump"
+    Space: "jump",
+    ShiftLeft: "run"
   }
   return keys[key]
 }
@@ -17,7 +18,8 @@ export const usePlayerControls = () => {
     moveBackward: false,
     moveLeft: false,
     moveRight: false,
-    jump: false
+    jump: false,
+    run: false,
   })
 
   useEffect(() => {

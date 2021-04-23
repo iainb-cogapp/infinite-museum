@@ -6,6 +6,7 @@ import { usePlayerControls } from "./usePlayerControls";
 import { Vector3 } from "three";
 
 const SPEED = 5;
+const RUN_SPEED = 10;
 
 export const Player = (props) => {
   const { camera } = useThree();
@@ -15,6 +16,7 @@ export const Player = (props) => {
     moveLeft,
     moveRight,
     jump,
+    run,
   } = usePlayerControls();
   const [ref, api] = useSphere(() => ({
     mass: 1,
@@ -44,7 +46,7 @@ export const Player = (props) => {
     direction
       .subVectors(frontVector, sideVector)
       .normalize()
-      .multiplyScalar(SPEED)
+      .multiplyScalar(run ? RUN_SPEED : SPEED)
       .applyEuler(camera.rotation);
     
     api.velocity.set(direction.x, velocity.current[1], direction.z)
