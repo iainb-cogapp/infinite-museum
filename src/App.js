@@ -5,12 +5,13 @@ import { Vector3 } from 'three';
 import { Physics } from 'use-cannon';
 import { Ground } from './Ground';
 import { Roof } from './Roof';
+import { Wall } from './Wall';
 import { Camera } from './Camera';
 import { Player } from './Player';
-import { Cube, useCubeStore } from './Cube';
+// import { Cube, useCubeStore } from './Cube';
 
 function App() {
-  const cubes = useCubeStore(state => state.cubes)
+  // const cubes = useCubeStore(state => state.cubes)
 
   return (
     <Canvas shadowMap sRGB gl={{ alpha: false }}>
@@ -25,11 +26,14 @@ function App() {
       <Physics gravity={[0, -30, 0]}>
         <Roof />
         <Ground />
+        <Wall position={[0, 0.5, -10]}  />
+        <Wall position={[3, 0.5, -7]} orientation="longitudinal"/>
+        <Wall position={[-3, 0.5, -7]} orientation="longitudinal"/>
         <Player />
-        <Cube position={[0, 0.5, -10]} />
+        {/* <Cube position={[0, 0.5, -10]} />
         {
           cubes.map(cube => cube)
-        }
+        } */}
       </Physics>
     </Canvas>
   )
