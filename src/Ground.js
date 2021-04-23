@@ -1,19 +1,19 @@
 import React from "react";
 import { usePlane } from "use-cannon";
 import { TextureLoader, RepeatWrapping } from "three";
-import grass from "./grass.jpg";
+import wood from "./WM_IndoorWood-44_256.jpg";
 
 export const Ground = (props) => {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
-  const texture = new TextureLoader().load(grass);
+  const texture = new TextureLoader().load(wood);
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
-  texture.repeat.set(240, 240);
+  texture.repeat.set(960, 960);
 
   return (
     <mesh ref={ref} receiveShadow>
       <planeBufferGeometry attach="geometry" args={[1009, 1000]} />
-      <meshStandardMaterial map={texture} attach="material" color="green" />
+      <meshStandardMaterial map={texture} attach="material" />
     </mesh>
   );
 };
