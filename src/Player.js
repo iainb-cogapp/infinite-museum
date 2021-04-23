@@ -25,12 +25,10 @@ export const Player = (props) => {
     ...props,
   }));
 
-  const velocity = useRef([0, 0, 0])
+  const velocity = useRef([0, 0, 0]);
   useEffect(() => {
-    api.velocity.subscribe((v) => (
-      velocity.current = v
-    ))
-  }, [])
+    api.velocity.subscribe((v) => (velocity.current = v));
+  }, []);
 
   useFrame(() => {
     camera.position.copy(ref.current.position);
@@ -48,11 +46,11 @@ export const Player = (props) => {
       .normalize()
       .multiplyScalar(run ? RUN_SPEED : SPEED)
       .applyEuler(camera.rotation);
-    
-    api.velocity.set(direction.x, velocity.current[1], direction.z)
-    
-    if(jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) {
-      api.velocity.set(velocity.current[0], 10, velocity.current[2])
+
+    api.velocity.set(direction.x, velocity.current[1], direction.z);
+
+    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) {
+      api.velocity.set(velocity.current[0], 10, velocity.current[2]);
     }
   });
 
