@@ -4,6 +4,7 @@ import { Sky } from 'drei';
 import { Vector3 } from 'three';
 import { Physics } from 'use-cannon';
 import { Ground } from './Ground';
+import { Roof } from './Roof';
 import { Camera } from './Camera';
 import { Player } from './Player';
 import { Cube, useCubeStore } from './Cube';
@@ -22,6 +23,7 @@ function App() {
         position={[100, 100, 100]}
       />
       <Physics gravity={[0, -30, 0]}>
+        <Roof />
         <Ground />
         <Player />
         <Cube position={[0, 0.5, -10]} />
