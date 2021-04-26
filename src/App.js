@@ -1,31 +1,30 @@
-import React, {useEffect, useState} from 'react';
-import { Canvas } from 'react-three-fiber';
-import { Sky } from 'drei';
-import { Vector3 } from 'three';
-import { Physics } from 'use-cannon';
-import { Ground } from './Ground';
-import { Roof } from './Roof';
-import { Wall } from './Wall';
-import { Camera } from './Camera';
-import { Player } from './Player';
-// import { Cube, useCubeStore } from './Cube';
-import shuffleArray from './utils/shuffle-array';
+import React, { useEffect, useState } from "react";
+import { Canvas } from "react-three-fiber";
+import { Sky } from "drei";
+import { Vector3 } from "three";
+import { Physics } from "use-cannon";
+import { Ground } from "./Ground";
+import { Roof } from "./Roof";
+import { Wall } from "./Wall";
+import { Camera } from "./Camera";
+import { Player } from "./Player";
+
+import shuffleArray from "./utils/shuffle-array";
 
 function App() {
-  // const cubes = useCubeStore(state => state.cubes)
-
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [query, setQuery] = useState();
 
-  const query = 'queen';
+  useEffect(() => {
+    const searchTerm = window.prompt("Enter a search term");
+    setQuery(searchTerm);
+  }, []);
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
   useEffect(() => {
     fetch(`https://api.vam.ac.uk/v2/objects/search?q="${query}"&images_exist=1`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
         (result) => {
           const roomObjects = result.records
@@ -42,8 +41,8 @@ function App() {
           setIsLoaded(true);
           setError(error);
         }
-      )
-  }, [])
+      );
+  }, [query]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -53,29 +52,41 @@ function App() {
 
   return (
     <Canvas shadowMap sRGB gl={{ alpha: false }}>
-      <Camera />
-      <Sky sunPosition={new Vector3(100, 10, 100)}/>
-      <ambientLight intensity={0.3}/>
-      <pointLight
-        castShadow
-        intensity={0.8}
-        position={[100, 100, 100]}
-      />
-      <Physics gravity={[0, -30, 0]}>
-        <Roof />
-        <Ground />
-        <Wall position={[0, 2.5, -4]} orientation="south" object={items[0]} />
-        <Wall position={[3, 2.5, -1]} orientation="east" object={items[1]} />
-        <Wall position={[-3, 2.5, -1]} orientation="west" object={items[2]} />
-        <Wall position={[0, 2.5, 2]} orientation="north" object={items[3]} />
-        <Player />
-        {/* <Cube position={[0, 0.5, -10]} />
-        {
-          cubes.map(cube => cube)
-        } */}
-      </Physics>
+      {items.length && (
+        <>
+          <Camera />
+          <Sky sunPosition={new Vector3(100, 10, 100)} />
+          <ambientLight intensity={0.3} />
+          <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+          <Physics gravity={[0, -30, 0]}>
+            <Roof />
+            <Ground />
+            <Wall
+              position={[0, 2.5, -4]}
+              orientation="south"
+              object={items[0]}
+            />
+            <Wall
+              position={[3, 2.5, -1]}
+              orientation="east"
+              object={items[1]}
+            />
+            <Wall
+              position={[-3, 2.5, -1]}
+              orientation="west"
+              object={items[2]}
+            />
+            <Wall
+              position={[0, 2.5, 2]}
+              orientation="north"
+              object={items[3]}
+            />
+            <Player />
+          </Physics>
+        </>
+      )}
     </Canvas>
-  )
+  );
 }
 
 export default App;

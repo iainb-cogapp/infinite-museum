@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 function moveFieldByKey(key) {
   const keys = {
@@ -7,9 +7,9 @@ function moveFieldByKey(key) {
     KeyA: "moveLeft",
     KeyD: "moveRight",
     Space: "jump",
-    ShiftLeft: "run"
-  }
-  return keys[key]
+    ShiftLeft: "run",
+  };
+  return keys[key];
 }
 
 export const usePlayerControls = () => {
@@ -20,30 +20,30 @@ export const usePlayerControls = () => {
     moveRight: false,
     jump: false,
     run: false,
-  })
+  });
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      setMovement(m => ({
+      setMovement((m) => ({
         ...m,
-        [moveFieldByKey(e.code)]: true
-      })) 
-    }
+        [moveFieldByKey(e.code)]: true,
+      }));
+    };
     const handleKeyUp = (e) => {
-      setMovement(m => ({
+      setMovement((m) => ({
         ...m,
-        [moveFieldByKey(e.code)]: false
-      })) 
-    }
+        [moveFieldByKey(e.code)]: false,
+      }));
+    };
 
-    document.addEventListener("keydown", handleKeyDown)
-    document.addEventListener("keyup", handleKeyUp)
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-      document.removeEventListener("keyup", handleKeyUp)
-    }
-  }, [])
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
 
-  return movement
-}
+  return movement;
+};
